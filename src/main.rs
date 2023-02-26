@@ -15,27 +15,51 @@ use core::panic::PanicInfo;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
-    println!("Hello World{}", " testing is not working");
+    println!("Hello World{}", " getting hardware interrtups to wokr");
+    
+    blog_os::init(); // new
+    fn stack_overflow() {
+        stack_overflow(); // for each recursion, the return address is pushed
+    }
 
+
+
+
+    // trigger a stack overflow
+    //stack_overflow();
+    // unsafe {
+    //     *(0xdeadbeef as *mut u64) = 42;
+    // };
+    //  breakpoint exception
+    // x86_64::instructions::interrupts::int3(); 
     #[cfg(test)]
     test_main();
 
-    loop {}
+    println!("IT worked!?  How did that work?");
+    blog_os::hlt_loop();
 }
 
+
+//routine call when a panic occurs 
 #[cfg(not(test))] 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    blog_os::hlt_loop();
 }
 
+//test call to panic
 #[cfg(test)]
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     blog_os::test_panic_handler(info)
 }
 
+//tester
+#[test_case]
+fn trivial_assertion() {
+    assert_eq!(1, 1);
+}
 /*
 #[test_case]
 fn trivial_assertion() {

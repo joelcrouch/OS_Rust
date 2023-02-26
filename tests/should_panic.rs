@@ -33,15 +33,7 @@ fn should_fail() {
 }
 //note that when this test fails (it should!) compilation
 //continues and QMEU is released
-/* pub fn test_runner(tests: &[&dyn Fn()]) {
-    serial_println!("Running {} tests", tests.len());
-    for test in tests {
-        test();
-        serial_println!("[test did not panic]");
-        exit_qemu(QemuExitCode::Failed);
-    }
-    exit_qemu(QemuExitCode::Success);
-} */
+
 
 //test case to see if should_fails works 
 // #[test_case]
